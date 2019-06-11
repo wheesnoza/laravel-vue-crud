@@ -29168,15 +29168,52 @@ new Vue({
   },
   data: {
     keeps: [],
+    pagination: {
+      'total': 0,
+      'current': 0,
+      'per_page': 0,
+      'last_page': 0,
+      'from': 0,
+      'to': 0,
+    },
     newKeep: '',
     fillKeep: { 'id': '', 'keep': '' },
     errors: [],
+    offset: 3,
+  },
+  computed: {
+    isActived: function () {
+      return this.pagination.current_page;
+    },
+    pagesNumber: function () {
+      if (!this.pagination.to) {
+        return [];
+      }
+
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+
+      var to = from + (this.offset * 2);
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
+    }
   },
   methods: {
-    getKeeps: function () {
-      var urlKeeps = 'tasks';
+    getKeeps: function (page) {
+      var urlKeeps = 'tasks?page=' + page;
       axios.get(urlKeeps).then(res => {
-        this.keeps = res.data;
+        this.keeps = res.data.tasks.data,
+          this.pagination = res.data.pagination
       });
     },
     createKeep: function () {
@@ -29217,6 +29254,10 @@ new Vue({
         this.getKeeps();
         toastr.success('削除しました！');
       });
+    },
+    changePage: function (page) {
+      this.pagination.current_page = page;
+      this.getKeeps(page);
     }
   }
 });
