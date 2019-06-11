@@ -17,6 +17,7 @@ new Vue({
       var url = 'tasks/' + keep.id;
       axios.delete(url).then(res => {
         this.getKeeps();
+        toastr.success('削除しました！');
       });
     }
   }
