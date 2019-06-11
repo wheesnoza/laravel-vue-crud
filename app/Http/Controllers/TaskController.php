@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Task;
 
 class TaskController extends Controller
 {
@@ -13,7 +14,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $task = Task::get();
+
+        return $task;
     }
 
     /**
@@ -23,7 +26,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        //Form
     }
 
     /**
@@ -45,7 +48,8 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        return $task;
     }
 
     /**
@@ -68,6 +72,7 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task.delete();
     }
 }
