@@ -29167,7 +29167,9 @@ new Vue({
     this.getKeeps();
   },
   data: {
-    keeps: []
+    keeps: [],
+    keep: '',
+    errors: [],
   },
   methods: {
     getKeeps: function () {
@@ -29181,6 +29183,20 @@ new Vue({
       axios.delete(url).then(res => {
         this.getKeeps();
         toastr.success('削除しました！');
+      });
+    },
+    createKeep: function () {
+      var url = 'tasks';
+      axios.post(url, {
+        keep: this.keep,
+      }).then(res => {
+        this.getKeeps();
+        this.keep = '';
+        this.errors = [];
+        $('#create').modal('hide');
+        toastr.success('作成しました！');
+      }).catch(err => {
+        this.errors = err.response.data;
       });
     }
   }
