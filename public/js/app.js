@@ -13648,20 +13648,20 @@
 ;
 //# sourceMappingURL=axios.map
 
-var urlUsers = 'https://jsonplaceholder.typicode.com/users';
 new Vue({
   el: '#main',
   created: function () {
-    this.getUsers();
+    this.getKeeps();
   },
   data: {
-    lists: []
+    keeps: []
   },
   methods: {
-    getUsers: function () {
-      axios.get(urlUsers).then(response => {
-        this.lists = response.data
-      })
+    getKeeps: function () {
+      var urlKeeps = 'tasks';
+      axios.get(urlKeeps).then(res => {
+        this.keeps = res.data;
+      });
     }
   }
 });
