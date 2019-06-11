@@ -12,6 +12,12 @@ new Vue({
       axios.get(urlKeeps).then(res => {
         this.keeps = res.data;
       });
+    },
+    deleteKeeps: function (keep) {
+      var url = 'tasks/' + keep.id;
+      axios.delete(url).then(res => {
+        this.getKeeps();
+      });
     }
   }
 });
