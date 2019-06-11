@@ -29168,7 +29168,8 @@ new Vue({
   },
   data: {
     keeps: [],
-    keep: '',
+    newKeep: '',
+    fillKeep: { 'id': '', 'keep': '' },
     errors: [],
   },
   methods: {
@@ -29178,25 +29179,43 @@ new Vue({
         this.keeps = res.data;
       });
     },
-    deleteKeeps: function (keep) {
-      var url = 'tasks/' + keep.id;
-      axios.delete(url).then(res => {
-        this.getKeeps();
-        toastr.success('削除しました！');
-      });
-    },
     createKeep: function () {
       var url = 'tasks';
       axios.post(url, {
-        keep: this.keep,
+        keep: this.newKeep,
       }).then(res => {
         this.getKeeps();
-        this.keep = '';
+        this.newKeep = '';
         this.errors = [];
         $('#create').modal('hide');
         toastr.success('作成しました！');
       }).catch(err => {
         this.errors = err.response.data;
+      });
+    },
+    editKeep: function (keep) {
+      this.fillKeep.id = keep.id;
+      this.fillKeep.keep = keep.keep;
+      $('#edit').modal('show');
+    },
+    updateKeep: function (id) {
+      var url = 'tasks/' + id;
+      axios.put(url, this.fillKeep)
+        .then(res => {
+          this.getKeeps();
+          this.fillKeep = { 'id': '', 'keep': '' };
+          this.errors = [];
+          $('#edit').modal('hide');
+          toastr.success('編集しました！');
+        }).catch(err => {
+          this.errors = err.response.data;
+        });
+    },
+    deleteKeep: function (keep) {
+      var url = 'tasks/' + keep.id;
+      axios.delete(url).then(res => {
+        this.getKeeps();
+        toastr.success('削除しました！');
       });
     }
   }
