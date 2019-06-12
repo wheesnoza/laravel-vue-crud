@@ -4,39 +4,50 @@
   
 <div id="main" class="row">
   <div class="col-xl-12">
-    <h1 class="">TASKs</h1>
+    <h1 class="">タスク管理</h1>
     <hr>
   </div>
   <div class="col-sm-7">
-    <a href="#" class="btn btn-primary float-right mb-3" data-toggle="modal" data-target="#create">追加</a>
-    <table class="table table-hover table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Task</th>
-          <th colspan="2">&nbsp;</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="keep in keeps">
-        <td width="10px">@{{ keep.id }}</td>
-        <td>@{{ keep.keep }}</td>
-          <td width="10px">
-            <a href="#" class="btn btn-warning btn-sm" v-on:click.prevent="editKeep(keep)" data-toggle="modal" data-target="#edit">Edit</a>
-          </td>
-          <td width="10px">
-            <a href="#" class="btn btn-danger btn-sm" v-on:click.prevent="deleteKeep(keep)">Delete</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    @include('create')
+    <ul class="list-group mb-3">
+      <li class="list-group-item" v-for="keep in keeps">
+        @{{ keep.keep }}
+        <div class="float-right" role="group">
+          <button type="button" class="btn btn-info" v-on:click.prevent="editKeep(keep)" data-toggle="modal" data-target="#edit">編集</button>
+          <button type="button" class="btn btn-danger" v-on:click.prevent="deleteKeep(keep)">削除</button>
+        </div>
+      </li>
+    </ul>
+
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" v-if="pagination.current_page > 1">
+          <a href="#" class="page-link" @click.prevent="changePage(pagination.current_page - 1)">
+            <span>前へ</span>
+          </a>
+        </li>
+
+        <li class="page-item" v-for="page in pagesNumber" v-bind:class="[ page == isActived ? 'active' : '' ]" aria-current="page">
+          <a href="#" class="page-link" @click.prevent="changePage(page)">
+            <span>@{{ page }}</span>
+          </a>
+        </li>
+
+        <li class="page-item" v-if="pagination.current_page < pagination.last_page">
+          <a href="#" class="page-link" @click.prevent="changePage(pagination.current_page + 1)">
+            <span>次へ</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
     @include('edit')
   </div>
   <div class="col-sm-5">
-    <pre>
-      @{{ $data }}
-    </pre>
+    <form method="POST" v-on:submit.prevent="createKeep">
+      <label for="keep">タイトル</label>
+      <input type="text" name="keep" class="form-control" v-model="newKeep" placeholder="タスク名">
+      <span v-for="error in errors" class="text-danger">@{{ error.keep }}</span>
+      <input type="submit" class="btn btn-primary btn-block mt-5" value="追加" v-on:click.prevent="createKeep()">
+    </form>
   </div>
 </div>
 
