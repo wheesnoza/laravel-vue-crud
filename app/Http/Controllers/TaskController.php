@@ -14,12 +14,12 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = Task::orderBy('id', 'DESC')->paginate(4);
+        $tasks = Task::orderBy('id', 'DESC')->paginate(5);
 
         return [
             'pagination' => [
                 'total'     => $tasks->total(),
-                'current'   => $tasks->currentPage(),
+                'current_page'   => $tasks->currentPage(),
                 'per_page'  => $tasks->perPage(),
                 'last_page' => $tasks->lastPage(),
                 'from'      => $tasks->firstItem(),

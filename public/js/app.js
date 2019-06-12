@@ -29212,8 +29212,8 @@ new Vue({
     getKeeps: function (page) {
       var urlKeeps = 'tasks?page=' + page;
       axios.get(urlKeeps).then(res => {
-        this.keeps = res.data.tasks.data,
-          this.pagination = res.data.pagination
+        this.keeps = res.data.tasks.data;
+        this.pagination = res.data.pagination;
       });
     },
     createKeep: function () {
