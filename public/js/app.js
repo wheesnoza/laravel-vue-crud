@@ -29167,6 +29167,7 @@ new Vue({
     this.getKeeps();
   },
   data: {
+    show: true,
     keeps: [],
     pagination: {
       'total': 0,
@@ -29235,11 +29236,11 @@ new Vue({
       this.fillKeep.keep = keep.keep;
       $('#edit').modal('show');
     },
-    updateKeep: function (id) {
+    updateKeep: function (id, page) {
       var url = 'tasks/' + id;
       axios.put(url, this.fillKeep)
         .then(res => {
-          this.getKeeps();
+          this.getKeeps(page);
           this.fillKeep = { 'id': '', 'keep': '' };
           this.errors = [];
           $('#edit').modal('hide');
@@ -29248,10 +29249,10 @@ new Vue({
           this.errors = err.response.data;
         });
     },
-    deleteKeep: function (keep) {
+    deleteKeep: function (keep, page) {
       var url = 'tasks/' + keep.id;
       axios.delete(url).then(res => {
-        this.getKeeps();
+        this.getKeeps(page);
         toastr.success('削除しました！');
       });
     },

@@ -20,6 +20,7 @@ mix.scripts([
     'resources/js/app.js',
 ], 'public/js/app.js')
     .styles([
+        'resources/css/animate.css',
         'resources/css/bootstrap.css',
         'resources/css/toastr.css',
     ], 'public/css/app.css');
