@@ -29179,7 +29179,7 @@ new Vue({
     },
     newKeep: '',
     fillKeep: { 'id': '', 'keep': '' },
-    errors: [],
+    error: '',
     offset: 3,
   },
   computed: {
@@ -29224,11 +29224,12 @@ new Vue({
       }).then(res => {
         this.getKeeps();
         this.newKeep = '';
-        this.errors = [];
+        this.error = '';
         $('#create').modal('hide');
         toastr.success('作成しました！');
       }).catch(err => {
-        this.errors = err.response.data;
+        this.error = err.response.data.errors.keep;
+        toastr.error(this.error);
       });
     },
     editKeep: function (keep) {
@@ -29242,11 +29243,19 @@ new Vue({
         .then(res => {
           this.getKeeps(page);
           this.fillKeep = { 'id': '', 'keep': '' };
-          this.errors = [];
+          this.error = '';
           $('#edit').modal('hide');
           toastr.success('編集しました！');
         }).catch(err => {
-          this.errors = err.response.data;
+          this.error = err.response.data.errors.keep;
+          toastr.error(this.error)
+        });
+    },
+    changeDone: function (keep, page) {
+      var url = 'tasks/' + keep.id;
+      axios.put(url, keep)
+        .then(res => {
+          this.getKeeps(page);
         });
     },
     deleteKeep: function (keep, page) {
