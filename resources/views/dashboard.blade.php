@@ -8,16 +8,6 @@
     <hr>
   </div>
   <div class="col-sm-7">
-    <ul class="list-group mb-3">
-      <li class="list-group-item" v-for="keep in keeps">
-        <span>@{{ keep.keep }}</span>
-        <div class="float-right" role="group">
-          <button type="button" class="btn btn-info" v-on:click.prevent="editKeep(keep)" data-toggle="modal" data-target="#edit">編集</button>
-          <button type="button" class="btn btn-danger" v-on:click.prevent="deleteKeep(keep)">削除</button>
-        </div>
-      </li>
-    </ul>
-
     <nav>
       <ul class="pagination">
         <li class="page-item" v-if="pagination.current_page > 1">
@@ -39,6 +29,15 @@
         </li>
       </ul>
     </nav>
+    <transition-group class="list-group mb-3" name="slide-fade" tag="ul">
+      <li class="list-group-item" v-for="keep in keeps" v-bind:key="keep.id">
+        <span>@{{ keep.keep }}</span>
+        <div class="float-right" role="group">
+          <button type="button" class="btn btn-info" v-on:click.prevent="editKeep(keep)" data-toggle="modal" data-target="#edit">編集</button>
+          <button type="button" class="btn btn-danger" v-on:click.prevent="deleteKeep(keep, pagination.current_page)">削除</button>
+        </div>
+      </li>
+    </transition-group>
     @include('edit')
   </div>
   <div class="col-sm-5">
