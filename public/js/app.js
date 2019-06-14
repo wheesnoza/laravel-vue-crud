@@ -29228,7 +29228,7 @@ new Vue({
         $('#create').modal('hide');
         toastr.success('作成しました！');
       }).catch(err => {
-        this.errors = err.response.data;
+        this.errors = err.response.data.errors;
       });
     },
     editKeep: function (keep) {
@@ -29246,7 +29246,7 @@ new Vue({
           $('#edit').modal('hide');
           toastr.success('編集しました！');
         }).catch(err => {
-          this.errors = err.response.data;
+          this.errors = err.response.data.errors;
         });
     },
     deleteKeep: function (keep, page) {

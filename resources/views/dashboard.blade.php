@@ -44,7 +44,7 @@
     <form method="POST" v-on:submit.prevent="createKeep">
       <label for="keep">タイトル</label>
       <input type="text" name="keep" class="form-control" v-model="newKeep" placeholder="タスク名">
-      <span v-for="error in errors" class="text-danger">@{{ error.keep }}</span>
+      <span v-for="error in errors" class="text-danger">@{{ errors.keep[0] }}</span>
       <input type="submit" class="btn btn-primary btn-block mt-5" value="追加" v-on:click.prevent="createKeep()">
     </form>
   </div>

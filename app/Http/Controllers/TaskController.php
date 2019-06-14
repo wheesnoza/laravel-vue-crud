@@ -39,6 +39,8 @@ class TaskController extends Controller
     {
         $this->validate($request, [
             'keep' => 'required',
+        ], [
+            'keep.required' => '何かを入力してください。'
         ]);
 
         Task::create($request->all());
@@ -57,6 +59,8 @@ class TaskController extends Controller
     {
         $this->validate($request, [
             'keep' => 'required',
+        ], [
+            'keep.required' => '何かを入力してください。'
         ]);
 
         Task::findOrFail($id)
